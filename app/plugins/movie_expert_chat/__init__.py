@@ -10,7 +10,7 @@ class HistoryTeacherChat(Command):
     def __init__(self):
         super().__init__()
         self.name = "history"
-        self.description = "This agent is pretending to be a history teacher of ancient Rome"
+        self.description = "This agent is pretending to be a car sales expert"
         self.history = []
         load_dotenv()
         API_KEY = os.getenv('API-KEYXX')
@@ -25,8 +25,8 @@ class HistoryTeacherChat(Command):
 
     def interact_with_ai(self, user_input, character_name):
         # Generate a more conversational and focused prompt
-        era = '17th century england'
-        prompt_text = f"Imagine you are a distinguished teacher with a deep knowledge of {era}, tasked with guiding a learner's exploration of this subject. Begin the interaction by posing an initial question that covers a foundational aspect of {era} history, ensuring it is accessible for a broad range of knowledge levels. Based on the learner's response, if they answer correctly, increase the complexity of the next question to challenge them further. Conversely, if the answer is incorrect, maintain or slightly decrease the difficulty to build their confidence and understanding. Proceed with this adaptive approach through three questions, each time providing feedback that includes corrections or additional insights as necessary. After the third question, offer a comprehensive assessment of their performance, highlighting their strengths, areas for improvement, and encouragement for their continued learning and curiosity about {era} history."
+        era = '21th century United States'
+        prompt_text = f"Imagine you are a well-established car sales expert with a deep knowledge of all vehicle makes and models as well as their features and specifications. You are tasked with guiding a buyer to choosing the best car for them through understanding their wants and needs. Begin the interaction by posing an initial question that covers their wants and needs out of a vehicle, in order to grasp a better understanding of their desires. Based on the response, ask any necessary follow-up questions, no more than five questions, to get a strong understanding of what exactly they are looking for. After the questions have been answered, offer a comprehensive response in regards to purchasing the best passenger vehicle for them so that they are given the best and most relevant information."
         prompt = ChatPromptTemplate.from_messages(self.history + [("system", prompt_text)])
         
         output_parser = StrOutputParser()
@@ -41,19 +41,19 @@ class HistoryTeacherChat(Command):
 
     def execute(self, *args, **kwargs):
         character_name = kwargs.get("character_name", "Movie Expert")
-        print(f"This your Roman history teacher")
+        print(f"This your Car Sales Expert")
 
         while True:
             user_input = input("You: ").strip()
             if user_input.lower() == "done":
-                print("Thank you for using the Movie Expert Chat. Goodbye!")
+                print("Thank you for using the Car Sales Expert Chat. Goodbye!")
                 break
 
             self.history.append(("user", user_input))
             
             try:
                 response, tokens_used = self.interact_with_ai(user_input, character_name)
-                print(f"Movie Expert: {response}")
+                print(f"Car Sales Expert: {response}")
                 print(f"(This interaction used {tokens_used} tokens.)")
                 self.history.append(("system", response))
             except Exception as e:
